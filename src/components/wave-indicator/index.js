@@ -37,7 +37,8 @@ export default class WaveIndicator extends PureComponent {
   renderComponent({ index, count, progress }) {
     let { size, color, waveFactor, waveMode } = this.props;
     let fill = 'fill' === waveMode;
-
+    let scaleVariable = 1 - Math.pow(waveFactor, index);
+    scaleVariable = scaleVariable === 0 ? 0.0001 : scaleVariable;
     let waveStyle = {
       height: size,
       width: size,
@@ -46,7 +47,7 @@ export default class WaveIndicator extends PureComponent {
       [fill? 'backgroundColor' : 'borderColor']: color,
       transform: [{
         scale: progress.interpolate({
-          inputRange: [0, 1 - Math.pow(waveFactor, index), 1],
+          inputRange: [0, scaleVariable, 1],
           outputRange: [0, 0, 1],
         }),
       }],
